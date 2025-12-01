@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>NFL 4th Down Decision Tool</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #111;
+            color: #eee;
+            padding: 30px;
+        }
+        h1 {
+            text-align: center;
+            color: #00e676;
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+        .container {
+            max-width: 650px;
+            margin: auto;
+            background: #222;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(0,255,150,0.25);
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 15px;
+        }
+        select, input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 4px;
+            border-radius: 6px;
+            border: none;
+            font-size: 15px;
+        }
+        button {
+            margin-top: 20px;
+            width: 100%;
+            background: #00e676;
+            border: none;
+            color: #000;
+            padding: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #00c864;
+        }
+        #result-card {
+            background: #333;
+            margin-top: 25px;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .wpa-values {
+            margin-top: 10px;
+            font-size: 16px;
+        }
+        .wpa-values span {
+            color: #00e676;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>NFL 4th Down Decision Model</h1>
+
+    <div class="container">
+
+        <label>Offense Team</label>
+        <select id="offense">
+            <option value="">-- Select Team --</option>
+            <option>ARI</option><option>ATL</option><option>BAL</option><option>BUF</option>
+            <option>CAR</option><option>CHI</option><option>CIN</option><option>CLE</option>
+            <option>DAL</option><option>DEN</option><option>DET</option><option>GB</option>
+            <option>HOU</option><option>IND</option><option>JAC</option><option>JAX</option>
+            <option>KC</option><option>LA</option><option>MIA</option><option>MIN</option>
+            <option>NE</option><option>NO</option><option>NYG</option><option>NYJ</option>
+            <option>OAK</option><option>PHI</option><option>PIT</option><option>SD</option>
+            <option>SEA</option><option>SF</option><option>STL</option><option>TB</option>
+            <option>TEN</option><option>WAS</option>
+        </select>
+
+        <label>Defense Team</label>
+        <select id="defense">
+            <option value="">-- Select Team --</option>
+            <option>ARI</option><option>ATL</option><option>BAL</option><option>BUF</option>
+            <option>CAR</option><option>CHI</option><option>CIN</option><option>CLE</option>
+            <option>DAL</option><option>DEN</option><option>DET</option><option>GB</option>
+            <option>HOU</option><option>IND</option><option>JAC</option><option>JAX</option>
+            <option>KC</option><option>LA</option><option>MIA</option><option>MIN</option>
+            <option>NE</option><option>NO</option><option>NYG</option><option>NYJ</option>
+            <option>OAK</option><option>PHI</option><option>PIT</option><option>SD</option>
+            <option>SEA</option><option>SF</option><option>STL</option><option>TB</option>
+            <option>TEN</option><option>WAS</option>
+        </select>
+
+        <label>Field Position (Yardline from Offense Perspective)</label>
+        <input id="yardline" type="number" placeholder="Example: 60 for opponent’s 40">
+
+        <label>Yards to Go</label>
+        <input id="ydstogo" type="number" placeholder="Example: 5">
+
+        <label>Time Remaining (MM:SS)</label>
+        <input id="time_left" placeholder="5:32">
+
+        <label>Score Differential (Offense - Defense)</label>
+        <input id="score_diff" type="number" placeholder="Example: -3">
+
+        <button id="predict-btn">Run Decision Model</button>
+
+        <div id="result-card">
+            <h2 id="result-text">Enter values and click Predict</h2>
+
+            <div class="wpa-values">
+                Go For It WPA: <span id="go-wpa">–</span><br>
+                Field Goal WPA: <span id="fg-wpa">–</span><br>
+                Punt WPA: <span id="punt-wpa">–</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function parseTimeToSeconds(timeStr) {
+            if (!timeStr.includes(":")) {
+                return parseFloat(timeStr) || 0;
+            }
+            const [min, sec] = timeStr.split(":").map(Number);
+            return (min * 60) + sec;
+        }
+
+        document.getElementById("predict-btn").addEventListener("click", async function () {
+
+            let offense = document.getElementById("offense").value;
+            let defense = document.getElementById("defense").value;
+
+            let yardline = parseFloat(document.getElementById("yardline").value) || 0;
+            let ydstogo  = parseFloat(document.getElementById("ydstogo").value) || 0;
+
+            let timeStr = document.getElementById("time_left").value;
+            let time_left = parseTimeToSeconds(timeStr);
+
+            let score_diff = parseFloat(document.getElementById("score_diff").value) || 0;
+
+            const payload = {
+                offense,
+                defense,
+                yardline,
+                ydstogo,
+                time_left,
+                score_diff
+            };
+
+            let res = await fetch("/predict", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            });
+
+            let result = await res.json();
+
+            if (result.error) {
+                document.getElementById("result-text").innerText = "Error: " + result.error;
+                return;
+            }
+
+            document.getElementById("result-text").innerText =
+                `Recommendation: ${result.decision}`;
+
+            document.getElementById("go-wpa").innerText = result.go_wpa.toFixed(3);
+            document.getElementById("fg-wpa").innerText = result.fg_wpa.toFixed(3);
+            document.getElementById("punt-wpa").innerText = result.punt_wpa.toFixed(3);
+        });
+    </script>
+
+</body>
+</html>
