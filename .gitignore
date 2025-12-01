@@ -205,3 +205,5 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+assets/NFL Play by Play 2009-2016 (v3).csv
