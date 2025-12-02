@@ -19,3 +19,12 @@ This project explicitly integrates the following concepts from the course:
 - CI/CD Automation (GitHub Actions → Railway deploy)
 - Testing & Validation (pytest)
 - Cloud Deployment (Railway)
+As well as other smaller coding concepts from earlier in the course
+
+#### Architecture Diagram
+![Architecture](assets/architecture.png)
+
+#### Architecture Summary
+- Frontend
+-   HTML/CSS/JS (dashboard.html, static/charts.js)
+-   Sends POST requests to /predict
