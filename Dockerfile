@@ -18,11 +18,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Now copy the rest of the application code
 COPY src/ /app/src/
 COPY templates/ /app/templates/
-COPY static/ /app/static/
-COPY assets/ /app/assets/
-COPY model_go.pkl /app/src/model_go.pkl
-COPY model_fg.pkl /app/src/model_fg.pkl
-COPY model_punt.pkl /app/src/model_punt.pkl
+COPY src/model_go.pkl /app/src/model_go.pkl
+COPY src/model_fg.pkl /app/src/model_fg.pkl
+COPY src/model_punt.pkl /app/src/model_punt.pkl
 
 # Provide a default environment variable for port
 ENV PORT=8080
