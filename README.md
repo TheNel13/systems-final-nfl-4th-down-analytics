@@ -26,5 +26,5 @@ As well as other smaller coding concepts from earlier in the course
 
 #### Architecture Summary
 - Frontend
--   HTML/CSS/JS (dashboard.html, static/charts.js)
--   Sends POST requests to /predict
+-- HTML/CSS/JS (dashboard.html, static/charts.js)
+-- Sends POST requests to /predict
