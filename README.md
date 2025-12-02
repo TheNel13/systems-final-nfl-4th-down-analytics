@@ -90,8 +90,8 @@ Docker > Larger image size but perfect reproducibility
 #### Sample Runs
 In both pictures, we have the offence in the 4th quarter on the 30 yard line, with 5 minutes left, one on 4th and 6 and the other 4th on 3. You would expect the team on 4th and 3 to go for it and the one on 4th and 6 to kick, and that is exactly what is showm.
 
-![Sample 1](assets/Sample 1.png)
-![Sample 2](assets/Sample 2.png)
+![Sample 1](assets/Sample_1.png)
+![Sample 2](assets/Sample_2.png)
 
 #### Performance Notes
 - Inference time: <10ms per request
