@@ -18,8 +18,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Now copy the rest of the application code
 COPY src/ /app/src/
 COPY templates/ /app/templates/
-COPY static/ /app/static/
-COPY assets/ /app/assets/
 COPY src/model_go.pkl /app/src/model_go.pkl
 COPY src/model_fg.pkl /app/src/model_fg.pkl
 COPY src/model_punt.pkl /app/src/model_punt.pkl
