@@ -115,4 +115,25 @@ pytest -q
 
 ## 7) Links
 #### Repo
-- 
+- https://github.com/TheNel13/systems-final-nfl-4th-down-analytics
+#### Live Cloud App
+- https://systems-final-nfl-4th-down-analytics-production.up.railway.app/
+#### Dataset Link
+- https://www.kaggle.com/datasets/maxhorowitz/nflplaybyplay2009to2016
+
+## ⭐ 8) Extra Credit Completed
+#### Cloud Deployment
+- Deployed on Railway with a persistent public URL
+- Container built via Dockerfile
+- Automatic deploy from GitHub push
+
+#### CI Integration
+- Included .github/workflows/ci.yml which:
+- Installs dependencies
+- Runs pytest
+- Validates Docker build
+- Blocks deploys unless tests pass
+
+#### CI Badge: ![CI](https://github.com/TheNel13/systems-final-nfl-4th-down-analytics/actions/workflows/ci.yml/badge.svg)
+
+Thank you and I hope you enjoy the project!
